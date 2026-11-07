@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Damkar Cilik – Ayo Cegah Kebakaran!</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--merah:#e63946;--merah-tua:#b5202c;--oranye:#ff8c42;--kuning:#ffd23f;--hijau:#3fa34d;--biru:#3a86ff;--abu:#9aa5ad;--teks:#3b2f2f}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{font-family:'Baloo 2',system-ui,sans-serif;background:linear-gradient(#ffe3c2,#fff6e6 55%,#ffeccf);background-attachment:fixed;color:var(--teks);user-select:none;-webkit-user-select:none}
+button{font-family:inherit;cursor:pointer;border:none;color:inherit}
+input,select{font-family:inherit;user-select:text;-webkit-user-select:text}
+.app{max-width:760px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:12px}
+header{display:flex;align-items:center;gap:8px}
+#judul{flex:1;text-align:center;font-weight:800;font-size:1.2rem;color:var(--merah-tua)}
+.pill{background:#fff;border-radius:999px;padding:6px 14px;font-weight:800;font-size:1.2rem;box-shadow:0 3px 0 rgba(0,0,0,.12);white-space:nowrap}
+.iconbtn{background:#fff;border-radius:50%;width:50px;height:50px;font-size:1.5rem;box-shadow:0 3px 0 rgba(0,0,0,.15);flex:none}
+.hide{visibility:hidden}
+.iconbtn:active,.big:active,.opt:active,.card:active,.pilih:active{transform:translateY(3px);box-shadow:none}
+.screen{display:none;flex:1;flex-direction:column}
+.screen.on{display:flex}
+h1{text-align:center;font-size:2.1rem;margin:12px 0 0;color:var(--merah-tua);line-height:1.1}
+.sub{text-align:center;margin:4px 0 16px;font-size:1.15rem}
+.menu{display:grid;gap:14px}
+.card{border-radius:26px;padding:14px 18px;font-size:1.45rem;font-weight:800;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.2);display:flex;align-items:center;gap:14px;text-align:left}
+.card .em{font-size:3.6rem;line-height:1}
+.card small{display:block;font-weight:600;font-size:1rem;opacity:.95}
+.card .lencana{margin-left:auto;font-size:2rem;opacity:.35}
+.card .lencana.dapat{opacity:1}
+.c1{background:var(--oranye)}.c2{background:var(--hijau)}.c3{background:var(--merah)}.c4{background:var(--biru)}
+.kelasgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:min(100%,460px)}
+.kelaskartu{background:#fff;border-radius:20px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 4px 0 rgba(0,0,0,.1);font-size:1.05rem;line-height:1.15;text-align:center}
+.kelaskartu .em{font-size:2.6rem;line-height:1.1}
+.huruf{display:inline-flex;width:44px;height:44px;border-radius:50%;color:#fff;font-weight:800;font-size:1.6rem;align-items:center;justify-content:center}
+.kelaskartu.opsi-k .huruf{width:40px;height:40px;font-size:1.4rem}
+.kelaskartu.goyang{background:#ffe1e1}.kelaskartu.ok{background:#e3f7e1}
+.c5{background:#8e5cd9}
+.lokasi{position:relative;width:min(100%,360px);height:250px;border-radius:22px;background:linear-gradient(#fff4e0 0 70%,#d9b98f 70%);overflow:hidden;touch-action:none;box-shadow:0 4px 0 rgba(0,0,0,.08);transition:filter .3s}
+.lokasi.gelap{filter:brightness(.78)}
+.apiwrap{position:absolute;left:0;right:0;bottom:78px;display:flex;justify-content:center;align-items:flex-end;pointer-events:none}
+.apiwrap .f{display:inline-block;line-height:.9;animation:nyala .4s ease-in-out infinite alternate;transition:font-size .15s}
+.apiwrap .f:nth-child(2){animation-delay:-.2s}
+.objek{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-size:4.2rem;line-height:1;pointer-events:none}
+.pangkal{position:absolute;left:25%;right:25%;bottom:70px;height:46px;border-radius:14px;pointer-events:none}
+.pangkal.tampil{outline:4px dashed var(--biru);background:rgba(58,134,255,.15);animation:kedip 1s infinite}
+@keyframes kedip{50%{opacity:.45}}
+.partikel{position:absolute;font-size:1.6rem;pointer-events:none;animation:cipratan .6s ease-out forwards;transform:translate(-50%,-50%)}
+@keyframes cipratan{to{transform:translate(-50%,-150%) scale(1.4);opacity:0}}
+.asapputih{font-size:4rem;animation:muncul .4s}
+.penutup{position:absolute;left:0;right:0;bottom:84px;text-align:center;font-size:5rem;animation:turun .35s ease-out;pointer-events:none}
+@keyframes turun{from{transform:translateY(-140px)}to{transform:none}}
+.lokasi.meledak{animation:geleng .4s;background:linear-gradient(#ffc59a 0 70%,#d9b98f 70%)}
+.lokasi.setrum::after{content:'⚡⚡⚡';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3.5rem;animation:muncul .2s}
+.alatbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;width:100%;align-items:center}
+.alatbtn{background:#fff;border-radius:18px;padding:8px 6px;min-width:76px;flex:1;max-width:110px;display:flex;flex-direction:column;align-items:center;font-weight:800;font-size:.85rem;line-height:1.1;box-shadow:0 4px 0 rgba(0,0,0,.12)}
+.alatbtn .em{font-size:2.2rem}
+.alatbtn.dipilih{background:#d6e6ff;outline:3px solid var(--biru)}
+.pass{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:min(100%,420px)}
+.passitem{background:#fff;border-radius:14px;padding:6px 4px;font-size:.8rem;font-weight:800;text-align:center;line-height:1.1;display:flex;flex-direction:column;align-items:center;opacity:.55}
+.passitem span{font-size:1.5rem}
+.passitem.kini{opacity:1;outline:3px solid var(--biru)}.passitem.ok{opacity:1;background:#e3f7e1}
+.apar{font-size:3.5rem}
+.infobesar{font-size:1.15rem;font-weight:800;text-align:center}
+.duapilih.tiga .pilih{min-width:96px;max-width:150px;padding:10px 6px}
+.infokotak{background:#fff3c4;border-radius:16px;padding:8px 12px;font-size:1.05rem;width:min(100%,460px);text-align:center}
+.tbl.kls td,.tbl.kls th{text-align:left;font-size:.95rem;vertical-align:top}
+.mini{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.big{background:var(--kuning);font-weight:800;font-size:1.3rem;border-radius:18px;padding:12px 22px;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+.big.biru{background:var(--biru);color:#fff}.big.putih{background:#fff}.big.merah{background:var(--merah);color:#fff}.big.hijau{background:var(--hijau);color:#fff}
+.big:disabled{opacity:.45;cursor:default}
+.soal{background:#fff;border-radius:22px;padding:12px 14px;margin:12px 0 4px;text-align:center;font-size:1.45rem;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.08);line-height:1.3}
+.soal b{color:var(--merah)}
+#prog{text-align:center;font-size:1.1rem;letter-spacing:4px;color:var(--merah-tua);margin-bottom:6px}
+.panggung{flex:1;display:flex;flex-direction:column;align-items:center;gap:12px;padding-bottom:20px}
+.petunjuk{font-size:1rem;opacity:.8;text-align:center}
+@keyframes geleng{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes muncul{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes nyala{from{transform:scale(1) rotate(-4deg)}to{transform:scale(1.12) rotate(4deg)}}
+.goyang{animation:geleng .4s}
+/* detektif */
+.ruang{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:min(100%,460px);background:#fff;border-radius:22px;padding:12px;box-shadow:0 4px 0 rgba(0,0,0,.08)}
+.benda{background:#fdf3e3;border-radius:18px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:110px;justify-content:center;position:relative;border:4px solid transparent}
+.benda .em{font-size:2.8rem;line-height:1.1}
+.benda .lbl{font-size:.85rem;font-weight:700;line-height:1.1;text-align:center}
+.benda.ketemu{border-color:var(--merah);background:#ffe1e1}
+.benda.ketemu::after{content:'⚠️';position:absolute;top:-10px;right:-8px;font-size:1.5rem}
+.benda.aman{border-color:var(--hijau);background:#e3f7e1}
+.sisa{font-size:1.2rem;font-weight:800}
+/* aman bahaya */
+.kartu{background:#fff;border-radius:26px;padding:16px 20px;text-align:center;width:min(100%,400px);box-shadow:0 6px 0 rgba(0,0,0,.1);animation:muncul .3s}
+.kartu .em{font-size:5rem;line-height:1.1}
+.kartu .tx{font-size:1.5rem;font-weight:800;line-height:1.2}
+.duapilih{display:flex;gap:14px;justify-content:center;width:100%;flex-wrap:wrap}
+.pilih{flex:1;min-width:140px;max-width:220px;border-radius:24px;padding:12px;font-size:1.3rem;font-weight:800;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.18);display:flex;flex-direction:column;align-items:center}
+.pilih .em{font-size:3rem;line-height:1.1}
+.pilih.ya{background:var(--hijau)}.pilih.tidak{background:var(--merah)}
+.pilih.netral{background:#fff;color:var(--teks)}
+.pilih .tx{font-size:1.05rem;line-height:1.15;margin-top:4px}
+/* labirin */
+.peta{display:grid;gap:6px;background:#c9b79c;padding:10px;border-radius:20px;width:min(100%,400px)}
+.sel{aspect-ratio:1;border-radius:12px;background:#f6ead6;font-size:2rem;display:flex;align-items:center;justify-content:center;padding:0;position:relative}
+.sel.api{background:#ffd0c2}.sel.api span{display:inline-block;animation:nyala .5s ease-in-out infinite alternate}
+.sel.asap{background:#b9c2c8}.sel.tembok{background:#a88b67}
+.sel.pintu{background:#c7f0c3}
+.sel.bisa{outline:4px dashed var(--biru);outline-offset:-4px}
+.sel .aku{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem;animation:muncul .2s}
+.alat{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+.legenda{font-size:.95rem;text-align:center;opacity:.85}
+/* urutan */
+.urut{display:flex;flex-direction:column;gap:10px;width:min(100%,420px)}
+.langkah{background:#fff;border-radius:20px;padding:10px 14px;font-size:1.3rem;font-weight:800;display:flex;align-items:center;gap:12px;box-shadow:0 4px 0 rgba(0,0,0,.12);text-align:left}
+.langkah .em{font-size:2.4rem}
+.langkah .no{margin-left:auto;width:40px;height:40px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.langkah.ok{background:#e3f7e1}.langkah.ok .no{background:var(--hijau);color:#fff}
+/* telepon */
+.hp{background:#263238;border-radius:34px;padding:16px;width:min(100%,300px)}
+.layar{background:#e8f5e9;border-radius:16px;height:64px;font-size:2.4rem;font-weight:800;text-align:center;letter-spacing:6px;margin-bottom:12px;display:flex;align-items:center;justify-content:center}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tombol{aspect-ratio:1.3;border-radius:16px;background:#fff;font-size:1.8rem;font-weight:800}
+.tombol:active{background:#ddd}
+.tombol.call{background:var(--hijau);color:#fff}.tombol.del{background:#ffcdd2}
+/* overlay */
+#overlay{position:fixed;inset:0;background:rgba(40,20,10,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
+#overlay.on{display:flex}
+#ovbox{background:#fffdf5;border-radius:28px;padding:20px 22px;max-width:430px;width:100%;text-align:center;animation:muncul .25s;max-height:92vh;overflow:auto}
+#ovbox h2{margin:4px 0;font-size:1.9rem;color:var(--merah-tua)}
+#ovbox p{font-size:1.15rem;margin:8px 0}
+.ovemoji{font-size:4rem;line-height:1.1}
+.note{background:#fff3c4;border-radius:14px;padding:8px}
+.hitung{font-size:3rem;font-weight:800;color:var(--biru)}
+.inp{font-size:1.5rem;width:160px;text-align:center;border-radius:14px;border:3px solid #ccc;padding:4px}
+.err{color:var(--merah);min-height:1.2em}
+/* stiker, ortu, sertifikat */
+.grid-stiker{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;background:#fff;border-radius:22px;padding:14px}
+.slot{aspect-ratio:1;border-radius:16px;background:#f2f2f2;display:flex;align-items:center;justify-content:center;font-size:2.4rem}
+.slot.dapat{background:#fff3c4;animation:muncul .3s}.slot.kunci{font-size:1.4rem;opacity:.4}
+.panel{background:#fff;border-radius:22px;padding:14px 16px;margin-top:12px;font-size:1.05rem}
+.panel h3{margin:0 0 6px;color:var(--merah-tua)}
+.panel ul{margin:4px 0;padding-left:20px}.panel li{margin:4px 0}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th,.tbl td{padding:6px;border-bottom:1px solid #eee;text-align:center}.tbl td:first-child{text-align:left}
+.set{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #eee}
+.set select{font-size:1rem;padding:4px;border-radius:10px;max-width:60%;min-width:0}
+.kecilteks{font-size:.95rem;opacity:.8}
+.serti{background:#fff;border:10px double var(--merah);border-radius:24px;padding:20px 16px;text-align:center;margin-top:10px}
+.serti .nama{font-size:2.2rem;font-weight:800;color:var(--merah-tua);border-bottom:3px dotted #ccc;margin:6px 20px;min-height:1.4em}
+.serti .lencana3{font-size:2.6rem;letter-spacing:6px}
+.kredit{margin-top:auto;padding-top:24px;text-align:center;font-size:.95rem;opacity:.7}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <button class="iconbtn hide" id="btnHome" onclick="keBeranda()" aria-label="Beranda">🏠</button>
+    <div id="judul">Damkar Cilik</div>
+    <div class="pill" id="bintang">⭐ 0</div>
+    <button class="iconbtn hide" id="btnUlang" onclick="speak(ucapan)" aria-label="Ulangi suara">🔊</button>
+  </header>
+
+  <section class="screen on" id="home">
+    <h1>👩‍🚒 Damkar Cilik 🚒</h1>
+    <p class="sub">Ayo belajar mencegah kebakaran!</p>
+    <div class="menu">
+      <button class="card c1" onclick="mulai('detektif')"><span class="em">🔍</span><span>Detektif Bahaya<small>Temukan benda berbahaya di rumah</small></span><span class="lencana" id="L_detektif">🥉</span></button>
+      <button class="card c2" onclick="mulai('aman')"><span class="em">👍</span><span>Aman atau Bahaya?<small>Pilih yang benar</small></span><span class="lencana" id="L_aman">🥈</span></button>
+      <button class="card c3" onclick="mulai('selamat')"><span class="em">🚪</span><span>Ayo Selamatkan Diri!<small>Keluar rumah, berguling, telepon 113</small></span><span class="lencana" id="L_selamat">🥇</span></button>
+      <button class="card c4" onclick="mulai('kelas')"><span class="em">🧯</span><span>Kenali Jenis Api<small>Air, ditutup, atau matikan listrik?</small></span><span class="lencana" id="L_kelas">🏵️</span></button>
+      <button class="card c5" onclick="mulai('simulasi')"><span class="em">🚒</span><span>Latihan Padamkan Api<small>Pura-pura jadi petugas damkar</small></span><span class="lencana" id="L_simulasi">🎗️</span></button>
+    </div>
+    <div class="mini">
+      <button class="big putih" onclick="bukaStiker()">🎁 Stikerku</button>
+      <button class="big putih" onclick="bukaSerti()">📜 Sertifikat</button>
+      <button class="big putih" onclick="gerbang()">👪 Orang Tua</button>
+    </div>
+    <p class="kredit">Developed by <b>Arya Nugraha</b></p>
+  </section>
+
+  <section class="screen" id="game">
+    <div class="soal" id="soal"></div>
+    <div id="prog"></div>
+    <div class="panggung" id="panggung"></div>
+  </section>
+
+  <section class="screen" id="stiker">
+    <h1>🎁 Koleksi Stiker</h1>
+    <p class="sub" id="stikerInfo"></p>
+    <div class="grid-stiker" id="gridStiker"></div>
+  </section>
+
+  <section class="screen" id="serti">
+    <h1>📜 Sertifikat</h1>
+    <div id="sertiIsi"></div>
+  </section>
+
+  <section class="screen" id="ortu">
+    <h1>👪 Halaman Orang Tua</h1>
+    <div id="ortuIsi"></div>
+  </section>
+</div>
+<div id="overlay"><div id="ovbox"></div></div>
+
+<script>
+/* ===== utilitas ===== */
+const $=s=>document.querySelector(s);
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+function P(){const p=$('#panggung');p.innerHTML='';return p}
+function tglKey(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+const ANGKA=['nol','satu','dua','tiga','empat','lima','enam','tujuh','delapan','sembilan','sepuluh'];
+
+/* ===== simpan ===== */
+const KEY='damkarCilik_v1';
+const STIKER=['🚒','🧯','👩‍🚒','👨‍🚒','🪣','🚨','🦺','⛑️','💧','🐕','🌳','🏠','🎖️','🏅','🏆'];
+const AREA=['detektif','aman','selamat','kelas','simulasi'];
+const BAWAAN={bintang:0,stiker:0,suara:true,kecepatan:.9,suaraNama:'',batas:15,nama:'',lencana:{},stat:{detektif:{b:0,s:0},aman:{b:0,s:0},selamat:{b:0,s:0},kelas:{b:0,s:0},simulasi:{b:0,s:0}},detik:{}};
+let state=JSON.parse(JSON.stringify(BAWAAN));
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s){state=Object.assign(state,s);state.stat=Object.assign(JSON.parse(JSON.stringify(BAWAAN.stat)),s.stat);state.lencana=s.lencana||{}}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+
+/* ===== suara ===== */
+let daftarSuara=[],ucapan='';
+// urutkan suara Indonesia: yang "Natural"/online (Edge), Google, lalu Damayanti (Apple) paling enak didengar
+function skorSuara(v){const n=v.name;return(/natural/i.test(n)?100:0)+(/online/i.test(n)?40:0)+(/google/i.test(n)?30:0)+(/damayanti|gadis|ardi/i.test(n)?20:0)+(v.localService?0:5)}
+function muatSuara(){try{daftarSuara=speechSynthesis.getVoices().filter(v=>/^id|^in-/i.test(v.lang)||/indonesia/i.test(v.name)).sort((a,b)=>skorSuara(b)-skorSuara(a))}catch(e){}}
+try{speechSynthesis.onvoiceschanged=muatSuara;muatSuara()}catch(e){}
+function suaraDipakai(){return daftarSuara.find(v=>v.name===state.suaraNama)||daftarSuara[0]||null}
+function rapikanUcapan(t){return t.replace(/\b113\b/g,'satu satu tiga').replace(/\b112\b/g,'satu satu dua').replace(/[🔥💨🚪🧒🧎🧍⚠️]/gu,'').replace(/\s+/g,' ').trim()}
+function speak(t,paksa){if((!state.suara&&!paksa)||!t)return;try{speechSynthesis.cancel();const v=suaraDipakai();
+  // dipecah per kalimat supaya ada jeda alami dan tidak terpotong di Chrome
+  (rapikanUcapan(t).match(/[^.!?]+[.!?]*/g)||[t]).forEach(k=>{k=k.trim();if(!k)return;const u=new SpeechSynthesisUtterance(k);u.lang=v?v.lang:'id-ID';if(v)u.voice=v;u.rate=state.kecepatan||.9;u.pitch=1.03;speechSynthesis.speak(u)})}catch(e){}}
+let actx;
+function bunyi(j){if(!state.suara)return;try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();const nada=j==='benar'?[523,659,784,1047]:j==='salah'?[330,247]:j==='sirene'?[700,950,700,950]:[700];const t0=actx.currentTime,len=j==='sirene'?.22:.1;nada.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain(),t=t0+i*len;o.type=j==='sirene'?'sawtooth':'triangle';o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(j==='sirene'?.08:.2,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+len+.08);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+len+.1)})}catch(e){}}
+
+/* ===== layar ===== */
+const NAMA_AREA={detektif:'🔍 Detektif Bahaya',aman:'👍 Aman atau Bahaya?',selamat:'🚪 Ayo Selamatkan Diri!',kelas:'🧯 Kenali Jenis Api',simulasi:'🚒 Latihan Padamkan Api'};
+const LENCANA={detektif:'🥉',aman:'🥈',selamat:'🥇',kelas:'🏵️',simulasi:'🎗️'};
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));$('#btnHome').classList.toggle('hide',id==='home');$('#btnUlang').classList.toggle('hide',id!=='game');if(id!=='game')$('#judul').textContent='Damkar Cilik';window.scrollTo(0,0)}
+function updateHeader(){$('#bintang').textContent='⭐ '+state.bintang;AREA.forEach(a=>$('#L_'+a).classList.toggle('dapat',!!state.lencana[a]))}
+function keBeranda(){try{speechSynthesis.cancel()}catch(e){}tutup();updateHeader();show('home')}
+function overlay(h){$('#ovbox').innerHTML=h;$('#overlay').classList.add('on')}
+function tutup(){$('#overlay').classList.remove('on')}
+function setSoal(tampil,ucap){$('#soal').innerHTML=tampil;ucapan=ucap;speak(ucap)}
+
+/* ===== alur ===== */
+let mode=null,ronde=0,terkunci=false,antrian=[],perRonde=5;
+function mulai(m){mode=m;ronde=0;show('game');$('#judul').textContent=NAMA_AREA[m];
+  if(m==='detektif'){antrian=shuffle(RUANG.slice());perRonde=RUANG.length}
+  else if(m==='aman'){antrian=shuffle(KARTU.slice()).slice(0,6);perRonde=6}
+  else if(m==='simulasi'){const ambil=j=>pick(BENDA_SIM.filter(x=>x[2]===j));antrian=[...shuffle(['kayu','minyak','listrik']).map(j=>{const x=ambil(j);return()=>simPadam(x)}),simAPAR];perRonde=4;introSim();return}
+  else if(m==='kelas'){const b=shuffle(BENDA_API.slice()).slice(0,6);antrian=b.map((x,i)=>i%2?()=>bolehAir(x):()=>pakaiApa(x));perRonde=6;belajarKelas();return}
+  else{antrian=shuffle([selLabirin,selLabirin,selUrut,selTelepon,selPilih,selPilih]);perRonde=antrian.length}
+  soalBaru()}
+function soalBaru(){terkunci=false;$('#prog').textContent='●'.repeat(ronde)+'○'.repeat(perRonde-ronde);const item=antrian[ronde];
+  if(mode==='detektif')detektif(item);else if(mode==='aman')amanBahaya(item);else item()}
+function tandaProg(){$('#prog').textContent='●'.repeat(ronde)+'○'.repeat(Math.max(0,perRonde-ronde))}
+// soal yang bisa dicoba ulang
+function benar(info){if(terkunci)return;terkunci=true;state.stat[mode].b++;ronde++;beriBintang();tandaProg();bunyi('benar');setTimeout(()=>hasil(true,info),650)}
+function salah(pesan){state.stat[mode].s++;save();bunyi('salah');speak(pesan||pick(['Hmm, belum pas. Coba lagi yuk.','Eits, hampir! Coba lagi ya.']))}
+// soal dua pilihan: salah = dijelaskan lalu lanjut
+function salahLanjut(info){if(terkunci)return;terkunci=true;state.stat[mode].s++;ronde++;save();tandaProg();bunyi('salah');setTimeout(()=>hasil(false,info),650)}
+let stikerBaru=false;
+function beriBintang(){state.bintang++;stikerBaru=false;if(Math.floor(state.bintang/5)>state.stiker&&state.stiker<STIKER.length){state.stiker++;stikerBaru=true}save();updateHeader()}
+function hasil(ok,info){
+  const selesai=ronde>=perRonde;let lencanaBaru=false;
+  if(selesai&&!state.lencana[mode]){state.lencana[mode]=true;lencanaBaru=true;save();updateHeader()}
+  const kata=ok?pick(['Wah, hebat!','Pintar banget!','Keren!','Betul sekali!','Mantap!']):'Hmm, belum pas';
+  let h=`<div class="ovemoji">${ok?pick(['🎉','🌟','👏','🥳']):'🤔'}</div><h2>${kata}</h2>`;
+  if(info)h+=`<p class="note">💡 ${info}</p>`;
+  if(ok)h+='<p>+1 ⭐</p>';
+  if(ok&&stikerBaru)h+=`<p class="note">🎁 Stiker baru: <span style="font-size:2.4rem">${STIKER[state.stiker-1]}</span></p>`;
+  if(lencanaBaru)h+=`<p class="note">🏅 Kamu dapat lencana <span style="font-size:2.4rem">${LENCANA[mode]}</span>!</p>`;
+  const semua=AREA.every(a=>state.lencana[a]);
+  if(selesai&&(mode==='kelas'||mode==='simulasi'))h+='<p class="note">👨‍🚒 Ingat: yang memadamkan api itu orang dewasa. Kamu keluar &amp; minta tolong!</p>';
+  if(selesai){h+=`<p>Ronde selesai! 🏁</p><div class="mini">${lencanaBaru&&semua?'<button class="big merah" onclick="tutup();bukaSerti()">📜 Lihat Sertifikat</button>':''}<button class="big" onclick="tutup();mulai(mode)">🔁 Main lagi</button><button class="big putih" onclick="keBeranda()">🏠 Beranda</button></div>`}
+  else h+=`<button class="big biru" onclick="tutup();soalBaru()">Lanjut ▶</button>`;
+  overlay(h);
+  speak((ok?kata+' ':'Hmm, belum pas nih. ')+(info||'')+(lencanaBaru?' Asyik, kamu dapat lencana baru!':'')+(selesai&&(mode==='kelas'||mode==='simulasi')?' Ingat ya, yang memadamkan api itu orang dewasa. Kamu keluar dan minta tolong.':'')+(lencanaBaru&&semua?' Selamat ya, sekarang kamu sudah jadi Damkar Cilik!':''));
+}
+
+/* ===== 1. DETEKTIF BAHAYA ===== */
+const RUANG=[
+ {nama:'Dapur',ikon:'🍳',benda:[
+  ['🍳','Kompor menyala ditinggal pergi',1,'Kompor yang menyala harus selalu dijaga orang dewasa.'],
+  ['🧻','Lap kain di dekat api kompor',1,'Kain mudah terbakar. Jauhkan dari api kompor.'],
+  ['💨','Tercium bau gas',1,'Kalau mencium bau gas, jangan nyalakan api dan segera beri tahu orang dewasa.'],
+  ['🍎','Buah di atas meja',0],['🧊','Kulkas',0],['🥄','Sendok',0],['🍽️','Piring bersih',0],['🪴','Tanaman',0],['🧯','Alat pemadam api',0,'Alat pemadam api membantu orang dewasa memadamkan api kecil.']]},
+ {nama:'Kamar Tidur',ikon:'🛏️',benda:[
+  ['🕯️','Lilin menyala dekat gorden',1,'Api lilin bisa menyambar gorden. Lilin harus jauh dari kain dan dijaga orang dewasa.'],
+  ['🌀','Obat nyamuk bakar dekat kasur',1,'Obat nyamuk bakar harus di tempatnya, jauh dari kasur, kertas, dan gorden.'],
+  ['🔌','Colokan listrik bertumpuk',1,'Terlalu banyak colokan bisa panas dan terbakar.'],
+  ['🛏️','Kasur rapi',0],['🧸','Boneka',0],['📚','Buku',0],['⏰','Jam weker',0],['👕','Baju di lemari',0],['🪟','Jendela',0]]},
+ {nama:'Ruang Tamu',ikon:'🛋️',benda:[
+  ['🔥','Korek api di atas meja',1,'Korek api bukan mainan. Kalau menemukannya, berikan ke orang dewasa.'],
+  ['⚡','Kabel listrik terkelupas',1,'Kabel yang terkelupas berbahaya. Jangan disentuh, beri tahu orang dewasa.'],
+  ['🚬','Puntung rokok masih menyala',1,'Puntung rokok yang masih menyala bisa membakar sofa dan karpet.'],
+  ['📺','Televisi',0],['🛋️','Sofa',0],['🖼️','Lukisan',0],['🚨','Alarm asap',0,'Alarm asap berbunyi kalau ada asap, supaya kita cepat keluar.'],['🪴','Tanaman',0],['🧯','Alat pemadam api',0,'Alat pemadam api membantu orang dewasa memadamkan api kecil.']]},
+ {nama:'Halaman',ikon:'🌳',benda:[
+  ['🗑️','Membakar sampah sembarangan',1,'Membakar sampah bisa membuat api menjalar ke rumah dan kebun.'],
+  ['🎆','Main kembang api tanpa orang dewasa',1,'Kembang api hanya boleh dimainkan bersama orang dewasa.'],
+  ['⛽','Bensin di dekat api',1,'Bensin sangat mudah terbakar. Harus jauh dari api.'],
+  ['🌳','Pohon',0],['🚲','Sepeda',0],['🪣','Ember berisi air',0],['⚽','Bola',0],['🌻','Bunga',0],['🐈','Kucing',0]]}];
+function detektif(r){
+  const total=r.benda.filter(b=>b[2]).length;let ketemu=0;
+  setSoal(`${r.ikon} ${r.nama}: temukan <b>${total}</b> benda berbahaya!`,`Sekarang kita di ${r.nama.toLowerCase()}. Yuk, cari ${ANGKA[total]} hal yang bisa bikin kebakaran!`);
+  const p=P(),g=el('div','ruang'),sisa=el('div','sisa');
+  const upd=()=>sisa.textContent=`⚠️ Ditemukan: ${ketemu} dari ${total}`;upd();
+  shuffle(r.benda.slice()).forEach(([e,l,bhy,ket])=>{const b=el('button','benda',`<span class="em">${e}</span><span class="lbl">${l}</span>`);
+    b.onclick=()=>{if(terkunci)return;
+      if(bhy){if(b.classList.contains('ketemu'))return;b.classList.add('ketemu');ketemu++;upd();bunyi('klik');
+        if(ketemu===total)benar('Semua bahaya di '+r.nama.toLowerCase()+' sudah ketemu! Kalau kamu lihat yang seperti ini, bilang ke orang dewasa ya.');else speak(pick(['Nah, betul!','Iya, itu bahaya!','Pintar, ketemu!'])+' '+ket)}
+      else{b.classList.add('aman');setTimeout(()=>b.classList.remove('aman'),900);speak(l+'. '+(ket||pick(['Yang ini aman kok.','Ini nggak bahaya.','Aman, cari yang lain yuk.'])))}};
+    g.append(b)});
+  p.append(g,sisa,el('div','petunjuk','👆 Ketuk benda yang bisa menyebabkan kebakaran'));
+}
+
+/* ===== 2. AMAN ATAU BAHAYA ===== */
+const KARTU=[
+ ['🔥','Bermain korek api',0,'Korek api bukan mainan. Berikan ke orang dewasa.'],
+ ['🤲','Memberikan korek api ke orang dewasa',1,'Betul! Korek api biar disimpan orang dewasa.'],
+ ['🕯️','Lilin menyala dekat gorden',0,'Lilin harus jauh dari gorden dan kain.'],
+ ['🍳','Bermain di dekat kompor yang menyala',0,'Jauhi kompor yang menyala. Bermainlah di luar dapur.'],
+ ['🔌','Memasukkan jari ke colokan listrik',0,'Colokan listrik berbahaya. Jangan dimasuki jari atau benda.'],
+ ['🚨','Alarm asap berbunyi, langsung keluar rumah',1,'Betul! Kalau alarm berbunyi, segera keluar.'],
+ ['🧎','Merangkak di bawah asap',1,'Betul! Udara di bawah lebih bersih, makanya kita merangkak rendah.'],
+ ['🛏️','Bersembunyi di bawah kasur saat kebakaran',0,'Jangan bersembunyi. Segera keluar supaya mudah ditemukan dan selamat.'],
+ ['🧸','Masuk lagi ke rumah yang terbakar untuk ambil mainan',0,'Jangan masuk lagi ya. Mainan bisa dicari lagi, kamu jauh lebih berharga.'],
+ ['📞','Menelepon 113 saat ada kebakaran',1,'Betul! 113 adalah nomor pemadam kebakaran.'],
+ ['🤡','Menelepon 113 untuk bercanda',0,'Nomor darurat hanya untuk keadaan darurat sungguhan.'],
+ ['🎆','Main kembang api sendirian',0,'Kembang api hanya boleh bersama orang dewasa.'],
+ ['🗑️','Membakar sampah sendiri',0,'Anak-anak tidak boleh membakar sampah.'],
+ ['💨','Mencium bau gas lalu memberi tahu orang dewasa',1,'Betul! Jangan nyalakan api, beri tahu orang dewasa.'],
+ ['🧯','Rumah punya alat pemadam api',1,'Betul! Alat pemadam api dipakai orang dewasa untuk api kecil.'],
+ ['🌀','Obat nyamuk bakar di atas kasur',0,'Obat nyamuk bakar harus jauh dari kasur dan kain.']];
+function amanBahaya([e,tx,aman,ket]){
+  setSoal('Ini <b>aman</b> atau <b>bahaya</b>?',tx+'. Menurut kamu, ini aman atau bahaya?');
+  const p=P();p.append(el('div','kartu',`<div class="em">${e}</div><div class="tx">${tx}</div>`));
+  const d=el('div','duapilih'),bA=el('button','pilih ya','<span class="em">👍</span>Aman'),bB=el('button','pilih tidak','<span class="em">✋</span>Bahaya');
+  bA.onclick=()=>aman?benar(ket):(bA.classList.add('goyang'),salahLanjut('Itu BAHAYA. '+ket));
+  bB.onclick=()=>!aman?benar('Betul, itu bahaya! '+ket):(bB.classList.add('goyang'),salahLanjut('Itu AMAN. '+ket.replace(/^Betul! /,'')));
+  d.append(bA,bB);p.append(d);
+}
+
+/* ===== 3. AYO SELAMATKAN DIRI ===== */
+// S=mulai E=pintu keluar F=api M=asap #=lemari .=lantai
+const PETA=[
+ ['S.#..','.M#F.','.M...','#F.M#','...ME'],
+ ['..F.S','.#M..','.FM#.','..M.F','E#...'],
+ ['S..F.','M#M#.','M.M..','MF.#F','M..ME'],
+ ['E.M.S','#FM#.','..M..','.F#F.','.....']];
+function selLabirin(){
+  const peta=pick(PETA),R=peta.length,C=peta[0].length;let pos,merangkak=false;
+  peta.forEach((r,i)=>[...r].forEach((c,j)=>{if(c==='S')pos=[i,j]}));
+  setSoal('🔥 Kebakaran! Bawa 🧒 ke pintu <b>🚪</b>','Waduh, ada kebakaran! Yuk, keluar lewat pintu. Jangan lewat api ya. Kalau ketemu asap, tekan tombol merangkak dulu.');
+  const p=P(),g=el('div','peta');g.style.gridTemplateColumns=`repeat(${C},1fr)`;
+  const sel=[];
+  for(let i=0;i<R;i++)for(let j=0;j<C;j++){const c=peta[i][j];
+    const kls={F:'api',M:'asap','#':'tembok',E:'pintu'}[c]||'';const isi={F:'🔥',M:'💨','#':'🗄️',E:'🚪'}[c]||'';
+    const b=el('button','sel '+kls,isi?`<span>${isi}</span>`:'');b.onclick=()=>klik(i,j);g.append(b);sel.push(b)}
+  const tb=el('button','big putih','🧍 Sedang berdiri');
+  tb.onclick=()=>{if(terkunci)return;merangkak=!merangkak;tb.innerHTML=merangkak?'🧎 Sedang merangkak':'🧍 Sedang berdiri';tb.className='big '+(merangkak?'biru':'putih');bunyi('klik');speak(merangkak?'Oke, sekarang merangkak rendah.':'Oke, berdiri lagi.');gambar()};
+  function gambar(){sel.forEach((b,k)=>{const i=Math.floor(k/C),j=k%C;b.querySelector('.aku')?.remove();b.classList.toggle('bisa',Math.abs(i-pos[0])+Math.abs(j-pos[1])===1&&!terkunci);
+    if(i===pos[0]&&j===pos[1])b.append(el('div','aku',merangkak?'🧎':'🧒'))})}
+  function klik(i,j){if(terkunci)return;if(Math.abs(i-pos[0])+Math.abs(j-pos[1])!==1){speak('Pilih kotak yang di sebelahmu ya.');return}
+    const c=peta[i][j],b=sel[i*C+j];
+    if(c==='F'){b.classList.add('goyang');setTimeout(()=>b.classList.remove('goyang'),450);salah('Eits, awas api! Cari jalan lain yuk.');return}
+    if(c==='#'){speak('Ada lemari, nggak bisa lewat situ.');return}
+    if(c==='M'&&!merangkak){b.classList.add('goyang');setTimeout(()=>b.classList.remove('goyang'),450);salah('Ada asap nih! Tekan tombol merangkak dulu ya, soalnya udara di bawah lebih bersih.');return}
+    pos=[i,j];bunyi('klik');
+    if(c==='E'){gambar();benar('Yey, kamu berhasil keluar! Sekarang pergi ke titik kumpul di luar, dan jangan masuk lagi ya.');sel.forEach(x=>x.classList.remove('bisa'));return}
+    gambar()}
+  gambar();
+  p.append(g,el('div','legenda','🔥 api – jangan dilewati · 💨 asap – harus merangkak · 🗄️ lemari'),tb);
+}
+const URUTAN=[
+ {judul:'Bajumu terkena api! Apa yang dilakukan?',ucap:'Gawat, bajumu kena api! Apa yang harus dilakukan duluan?',langkah:[['✋','Berhenti, jangan lari'],['⬇️','Tiarap & tutup wajah'],['🔄','Berguling-guling']],info:'Ingat: Berhenti, Tiarap, Berguling sampai apinya padam. Jangan lari, karena api bisa makin besar.'},
+ {judul:'Alarm asap berbunyi! Urutkan langkahnya',ucap:'Alarm asap bunyi! Yuk, urutkan langkahnya.',langkah:[['🚨','Dengar alarm berbunyi'],['🧎','Keluar, merangkak di bawah asap'],['🌳','Kumpul di titik aman di luar'],['📞','Telepon 113']],info:'Keluar dulu, kumpul di titik aman, baru minta bantuan dengan menelepon 113.'}];
+function selUrut(){
+  const u=pick(URUTAN);let next=0;
+  setSoal(u.judul,u.ucap+' Mulai dari yang pertama ya.');
+  const p=P(),w=el('div','urut');
+  shuffle(u.langkah.map((x,i)=>[x,i])).forEach(([[e,t],i])=>{const b=el('button','langkah',`<span class="em">${e}</span><span>${t}</span><span class="no">?</span>`);
+    b.onclick=()=>{if(terkunci||b.classList.contains('ok'))return;
+      if(i===next){next++;b.classList.add('ok');b.querySelector('.no').textContent=next;bunyi('klik');speak(t);if(next===u.langkah.length)benar(u.info)}
+      else{b.classList.add('goyang');setTimeout(()=>b.classList.remove('goyang'),450);salah('Bukan yang itu. Coba pikir, mana yang duluan?')}};
+    w.append(b)});
+  p.append(w,el('div','petunjuk','🔢 Ketuk dari langkah pertama'));
+}
+function selTelepon(){
+  const target='113';let isi='';
+  setSoal('📞 Tekan nomor pemadam kebakaran: <b>1 1 3</b>','Yuk, kita latihan menelepon pemadam kebakaran. Tekan satu, satu, tiga. Terus tekan tombol hijau.');
+  const p=P(),hp=el('div','hp'),layar=el('div','layar',''),pad=el('div','pad');
+  const upd=()=>layar.textContent=isi||' ';upd();
+  ['1','2','3','4','5','6','7','8','9','⌫','0','📞'].forEach(k=>{const b=el('button','tombol'+(k==='📞'?' call':k==='⌫'?' del':''),k);
+    b.onclick=()=>{if(terkunci)return;
+      if(k==='⌫'){isi=isi.slice(0,-1);upd();return}
+      if(k==='📞'){if(isi===target){bunyi('sirene');setTimeout(()=>benar('Nomor pemadam kebakaran itu 113, atau bisa juga 112. Bilang ada kebakaran, terus sebutkan alamat rumahmu. Tapi ingat, cuma kalau benar-benar darurat ya!'),900)}else{salah('Nomornya belum pas. Coba lagi ya: satu, satu, tiga.');isi='';upd()}return}
+      if(isi.length<4){isi+=k;upd();bunyi('klik');speak(ANGKA[+k])}};
+    pad.append(b)});
+  hp.append(layar,pad);p.append(hp);
+}
+const SITUASI=[
+ ['🌫️','Ada asap tebal di kamar.',['🧎','Merangkak keluar'],['🛏️','Sembunyi di bawah kasur'],'Merangkak keluar, karena udara di bawah asap lebih bersih. Jangan bersembunyi.'],
+ ['🔥','Kamu menemukan korek api di lantai.',['🤲','Berikan ke orang dewasa'],['🎮','Dipakai untuk main'],'Korek api bukan mainan. Berikan ke orang dewasa.'],
+ ['🧸','Mainanmu tertinggal di rumah yang terbakar.',['🌳','Tetap di luar'],['🏃','Masuk mengambilnya'],'Tetap di luar dan jangan masuk lagi. Biar petugas pemadam yang bekerja.'],
+ ['🚪','Gagang pintu terasa panas.',['↩️','Jangan dibuka, cari jalan lain'],['🖐️','Buka pintunya'],'Pintu panas berarti ada api di baliknya. Jangan dibuka, cari jalan keluar lain.'],
+ ['👕','Bajumu terkena api!',['🔄','Berhenti, tiarap, berguling'],['🏃','Lari secepatnya'],'Berhenti, tiarap, dan berguling. Kalau lari, apinya bisa makin besar.'],
+ ['💨','Kamu mencium bau gas di dapur.',['🗣️','Beri tahu orang dewasa'],['🔥','Nyalakan korek api'],'Jangan nyalakan api apa pun. Segera beri tahu orang dewasa.'],
+ ['🚨','Alarm asap berbunyi.',['🚪','Segera keluar rumah'],['📺','Lanjut nonton TV'],'Kalau alarm berbunyi, segera keluar rumah.']];
+function selPilih(){
+  const [e,tx,ok,no,info]=pick(SITUASI);
+  setSoal(`<span style="font-size:2.6rem">${e}</span><br>${tx}`,tx+' Kalau kamu, apa yang dilakukan?');
+  const p=P(),d=el('div','duapilih');
+  shuffle([[ok,1],[no,0]]).forEach(([[em,t],b])=>{const btn=el('button','pilih netral',`<span class="em">${em}</span><span class="tx">${t}</span>`);
+    btn.onclick=()=>b?benar(info):(btn.classList.add('goyang'),salahLanjut(info));d.append(btn)});
+  p.append(d,el('div','petunjuk','👆 Pilih yang benar'));
+}
+
+/* ===== 4. KENALI JENIS API (versi sederhana untuk anak) ===== */
+// Kertas & kayu = kelas A, minyak & gas = kelas B, listrik = kelas C (Permenakertrans PER.04/MEN/1980)
+const JENIS={
+ kayu:{e:'🪵',nama:'Api kertas & kayu',alat:'💧',alatNama:'Air',aturan:'Boleh pakai air',w:'#3fa34d',
+   info:'Api kertas dan kayu boleh disiram air.'},
+ minyak:{e:'🍳',nama:'Api minyak & gas',alat:'🍲',alatNama:'Ditutup',aturan:'Jangan pakai air, ditutup',w:'#ff8c42',
+   info:'Api minyak dan gas ditutup, jangan disiram air. Kalau kena air, apinya bisa muncrat.'},
+ listrik:{e:'⚡',nama:'Api listrik',alat:'🔌',alatNama:'Matikan listrik',aturan:'Jangan pakai air, matikan listrik',w:'#3a86ff',
+   info:'Api listrik: matikan listriknya dulu. Kalau disiram air, bisa kesetrum.'}};
+const BENDA_API=[
+ ['📦','Kardus terbakar','kayu'],['📄','Kertas terbakar','kayu'],['🪵','Kayu terbakar','kayu'],['🧺','Baju terbakar','kayu'],['🛋️','Sofa terbakar','kayu'],
+ ['🍳','Wajan minyak terbakar','minyak'],['⛽','Bensin terbakar','minyak'],['🫙','Tabung gas terbakar','minyak'],
+ ['📺','TV terbakar','listrik'],['🔌','Colokan terbakar','listrik'],['💻','Laptop terbakar','listrik']];
+function belajarKelas(){
+  terkunci=false;$('#prog').textContent='';
+  setSoal('🧯 Ada <b>3 jenis api</b>','Api itu ada tiga jenis. Ketuk kartunya ya.');
+  const p=P(),w=el('div','urut');
+  Object.values(JENIS).forEach(v=>{const b=el('button','langkah',`<span class="em" style="white-space:nowrap;flex:none">${v.e}🔥</span><span>${v.nama}<br><span class="kecilteks">${v.aturan}</span></span><span class="em" style="margin-left:auto">${v.alat}</span>`);
+    b.onclick=()=>{bunyi('klik');speak(v.info)};w.append(b)});
+  const aturan=el('div','infokotak','💧 <b>Air</b> hanya untuk api <b>kertas &amp; kayu</b>.');
+  const ing=el('div','infokotak','👨‍🚒 Yang memadamkan api: <b>orang dewasa</b>.<br>Kamu: <b>keluar &amp; minta tolong!</b>');
+  const m=el('button','big merah','Main ▶');m.onclick=()=>soalBaru();
+  p.append(w,aturan,ing,m);
+}
+function pakaiApa([e,tx,j]){
+  setSoal(`<span style="font-size:3.2rem">${e}🔥</span><br>${tx}.<br><b>Pakai apa?</b>`,tx+'. Pakai apa ya?');
+  const p=P(),d=el('div','duapilih tiga');
+  Object.entries(JENIS).forEach(([k,v])=>{const b=el('button','pilih netral',`<span class="em">${v.alat}</span><span class="tx">${v.alatNama}</span>`);
+    b.onclick=()=>{if(terkunci)return;if(k===j)benar('Betul! '+JENIS[j].info);else{b.classList.add('goyang');salahLanjut(JENIS[j].info)}};d.append(b)});
+  p.append(d);
+}
+function bolehAir([e,tx,j]){
+  setSoal(`<span style="font-size:3.2rem">${e}🔥</span><br>${tx}.<br><b>Boleh disiram air?</b> 💧`,tx+'. Boleh disiram air, nggak?');
+  const p=P(),d=el('div','duapilih'),ya=j==='kayu';
+  const bY=el('button','pilih ya','<span class="em">👍</span>Boleh'),bT=el('button','pilih tidak','<span class="em">✋</span>Jangan');
+  bY.onclick=()=>ya?benar('Betul! '+JENIS[j].info):(bY.classList.add('goyang'),salahLanjut(JENIS[j].info));
+  bT.onclick=()=>!ya?benar('Betul! '+JENIS[j].info):(bT.classList.add('goyang'),salahLanjut(JENIS[j].info));
+  d.append(bY,bT);p.append(d);
+}
+
+/* ===== 5. LATIHAN PADAMKAN API (simulasi) ===== */
+const BENDA_SIM=[['📦','Kardus terbakar','kayu'],['🧺','Tumpukan baju terbakar','kayu'],['🗑️','Tempat sampah kertas terbakar','kayu'],
+ ['🍳','Wajan minyak terbakar','minyak'],['🫙','Api di selang kompor gas','minyak'],['📺','TV terbakar','listrik'],['🔌','Colokan terbakar','listrik']];
+const ALAT=[['air','💧','Air'],['tutup','🍲','Tutup / kain basah'],['listrik','🔌','Matikan listrik'],['apar','🧯','Alat pemadam']];
+const SIM_INFO={kayu:'Apinya padam! Api kertas dan kayu bisa dipadamkan dengan air.',
+ minyak:'Apinya padam! Api minyak dan gas ditutup supaya tidak dapat udara. Jangan pernah pakai air ya.',
+ listrik:'Pintar! Listrik dimatikan dulu, baru disemprot alat pemadam api.'};
+function introSim(){
+  terkunci=false;$('#prog').textContent='';
+  setSoal('👩‍🚒 Latihan jadi <b>petugas damkar</b>','Yuk, latihan jadi petugas damkar! Ini cuma pura-pura ya. Kalau ada api sungguhan, kamu keluar dan minta tolong orang dewasa.');
+  const p=P();
+  p.append(el('div','ovemoji','🚒👩‍🚒🧯'),
+    el('div','infokotak','🎮 Ini <b>latihan pura-pura</b>.<br>Kalau ada api sungguhan: <b>keluar &amp; minta tolong orang dewasa!</b>'),
+    el('div','infokotak','1️⃣ Pilih alat yang benar<br>2️⃣ <b>Tahan jarimu</b> di api untuk menyemprot'));
+  const m=el('button','big merah','Mulai latihan ▶');m.onclick=()=>soalBaru();p.append(m);
+}
+function zonaApi(objEm){
+  const z=el('div','lokasi'),wrap=el('div','apiwrap'),fl=[0,1,2].map(()=>el('span','f','🔥'));
+  fl.forEach(f=>wrap.append(f));z.append(wrap,el('div','objek',objEm),el('div','pangkal'));
+  const api={z,hp:100,
+    set(h){this.hp=Math.max(0,Math.min(140,h));const s=this.hp/100;
+      if(this.hp<=0){wrap.innerHTML='<span class="asapputih">💨</span>';return}
+      fl.forEach((f,i)=>f.style.fontSize=(1.2+[3.4,2.4,2.4][i]*s)+'rem')},
+    partikel(x,y,em){const q=el('span','partikel',em);q.style.left=x+'px';q.style.top=y+'px';z.append(q);setTimeout(()=>q.remove(),600)}};
+  api.set(100);return api;
+}
+function aktifkanSemprot(api,em,{sapu=false,onPadam}){
+  const z=api.z;let tekan=false,lx=0,ly=0,timer=null;
+  const pos=e=>{const r=z.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+  const stop=()=>{tekan=false;clearInterval(timer)};
+  function kurang(n){if(api.hp<=0)return;api.set(api.hp-n);if(api.hp<=0){stop();z.onpointerdown=z.onpointermove=null;onPadam()}}
+  z.onpointerdown=e=>{if(terkunci||api.hp<=0)return;tekan=true;try{z.setPointerCapture(e.pointerId)}catch(_){}
+    [lx,ly]=pos(e);api.partikel(lx,ly,em);kurang(sapu?2:6);
+    clearInterval(timer);timer=setInterval(()=>{if(!tekan)return;kurang(sapu?.6:3.5);api.partikel(lx+rnd(-25,25),ly+rnd(-15,15),em)},100)};
+  z.onpointermove=e=>{if(!tekan)return;const[x,y]=pos(e);if(sapu)kurang(Math.abs(x-lx)/5);lx=x;ly=y;if(Math.random()<.5)api.partikel(x,y,em)};
+  z.onpointerup=z.onpointercancel=z.onpointerleave=stop;
+  return()=>{stop();z.onpointerdown=z.onpointermove=null};
+}
+function simPadam([e,tx,j]){
+  let listrikMati=false,lepas=null;
+  setSoal(`${e}🔥 ${tx}!<br><b>Pilih alat yang benar</b>`,`Waduh, ${tx.toLowerCase()}! Ayo, pilih alat yang benar.`);
+  const p=P(),api=zonaApi(e),info=el('div','infobesar','👇 Pilih alat dulu'),bar=el('div','alatbar');
+  ALAT.forEach(([k,em,nm])=>{const b=el('button','alatbtn',`<span class="em">${em}</span><span>${nm}</span>`);b.onclick=()=>pilih(k,b);bar.append(b)});
+  p.append(api.z,info,bar);
+  const selesai=()=>{info.textContent='✅ Apinya padam!';benar(SIM_INFO[j])};
+  function pilih(k,b){
+    if(terkunci||api.hp<=0)return;
+    if(lepas){lepas();lepas=null}api.z.onpointerdown=null;
+    bar.querySelectorAll('.alatbtn').forEach(x=>x.classList.toggle('dipilih',x===b&&k!=='listrik'));bunyi('klik');
+    if(k==='listrik'){
+      if(j!=='listrik'){salah('Ini bukan api listrik. Coba alat lain ya.');return}
+      if(listrikMati){speak('Listriknya sudah mati kok. Sekarang pakai alat pemadam api.');return}
+      listrikMati=true;b.classList.add('dipilih');api.z.classList.add('gelap');info.textContent='✅ Listrik mati. Sekarang pilih 🧯 Alat pemadam';
+      speak('Oke, listriknya sudah dimatikan. Sekarang pakai alat pemadam api.');return}
+    if(k==='air'){
+      if(j==='minyak'){api.set(api.hp+25);api.z.classList.add('meledak');setTimeout(()=>api.z.classList.remove('meledak'),600);salah('Waduh! Minyak kena air, apinya muncrat makin besar. Api minyak harus ditutup!');return}
+      if(j==='listrik'){api.z.classList.add('setrum');setTimeout(()=>api.z.classList.remove('setrum'),700);salah(listrikMati?'Pakai alat pemadam api saja ya, jangan air.':'Awas, kesetrum! Listriknya harus dimatikan dulu.');return}}
+    if(k==='tutup'){
+      if(j!=='minyak'){salah(j==='listrik'?'Matikan listriknya dulu ya.':'Api kertas dan kayu lebih mudah dipadamkan dengan air.');return}
+      info.textContent='👆 Ketuk apinya untuk menutup';speak('Ketuk apinya untuk menutup.');
+      api.z.onpointerdown=()=>{if(terkunci)return;api.z.onpointerdown=null;api.z.append(el('div','penutup',e==='🍳'?'🍲':'🧺'));bunyi('klik');
+        let h=api.hp;const iv=setInterval(()=>{h-=14;api.set(h);if(h<=0){clearInterval(iv);selesai()}},120)};return}
+    if(k==='apar'&&j==='listrik'&&!listrikMati){salah('Tunggu! Matikan listriknya dulu, baru disemprot.');return}
+    info.textContent='👆 Tahan jarimu di api untuk menyemprot';speak('Tahan jarimu di apinya untuk menyemprot.');
+    lepas=aktifkanSemprot(api,k==='air'?'💧':'☁️',{onPadam:selesai});
+  }
+}
+function simAPAR(){
+  let tahap=0;
+  setSoal('🧯 Latihan pakai <b>alat pemadam api</b>','Yuk, latihan pakai alat pemadam api. Pertama, tarik pin pengamannya.');
+  const p=P(),L=[['📍','Tarik pin'],['🎯','Arahkan ke bawah'],['✊','Tekan tuas'],['↔️','Sapukan']];
+  const daftar=el('div','pass');L.forEach(([em,t])=>daftar.append(el('div','passitem',`<span>${em}</span>${t}`)));
+  const api=zonaApi('📦'),info=el('div','infobesar',''),aksi=el('div','alatbar');
+  const tandai=()=>[...daftar.children].forEach((c,i)=>{c.classList.toggle('ok',i<tahap);c.classList.toggle('kini',i===tahap)});
+  const lanjut=()=>{tahap++;tandai();langkah()};
+  function langkah(){aksi.innerHTML='';
+    if(tahap===0){info.textContent='👇 Tarik pin pengamannya';const b=el('button','big','📍 Tarik pin');b.onclick=()=>{if(terkunci)return;bunyi('klik');lanjut()};aksi.append(el('div','apar','🧯'),b)}
+    else if(tahap===1){info.textContent='👆 Ketuk bagian BAWAH api';speak('Kedua, arahkan selangnya ke bagian bawah api. Ketuk kotak biru di bawah apinya.');
+      const pk=api.z.querySelector('.pangkal');pk.classList.add('tampil');
+      api.z.onpointerdown=e=>{const r=pk.getBoundingClientRect();if(e.clientY>=r.top-12&&e.clientY<=r.bottom+12){api.z.onpointerdown=null;pk.classList.remove('tampil');bunyi('klik');lanjut()}else salah('Arahkan ke bawah, ke pangkal apinya ya.')}}
+    else if(tahap===2){info.textContent='✊ Tekan tuasnya';speak('Ketiga, tekan tuasnya.');const b=el('button','big biru','✊ Tekan tuas');b.onclick=()=>{if(terkunci)return;bunyi('klik');lanjut()};aksi.append(b)}
+    else if(tahap===3){info.textContent='↔️ Tahan jarimu di api, geser kiri–kanan';speak('Terakhir, tahan jarimu di api, lalu geser ke kiri dan ke kanan.');
+      aktifkanSemprot(api,'☁️',{sapu:true,onPadam:()=>{tahap=4;tandai();info.textContent='✅ Apinya padam!';benar('Kamu sudah bisa: tarik, arahkan, tekan, sapukan! Di dunia nyata, alat pemadam dipakai orang dewasa ya.')}})}}
+  p.append(daftar,api.z,info,aksi);tandai();langkah();
+}
+
+/* ===== stiker & sertifikat ===== */
+function bukaStiker(){show('stiker');const g=$('#gridStiker');g.innerHTML='';
+  STIKER.forEach((s,i)=>g.append(el('div','slot'+(i<state.stiker?' dapat':' kunci'),i<state.stiker?s:'❔')));
+  $('#stikerInfo').textContent=state.stiker>=STIKER.length?'Semua stiker sudah terkumpul! 🏆':`Kumpulkan ${5-(state.bintang%5)} bintang lagi untuk stiker berikutnya.`}
+function bukaSerti(){show('serti');const semua=AREA.every(a=>state.lencana[a]);
+  if(!semua){$('#sertiIsi').innerHTML=`<div class="panel" style="text-align:center"><p style="font-size:1.2rem">Selesaikan satu ronde di setiap permainan untuk mendapat ${AREA.length} lencana:</p><p style="font-size:3rem;letter-spacing:10px">${AREA.map(a=>state.lencana[a]?LENCANA[a]:'❔').join('')}</p><p>Setelah lengkap, sertifikat <b>Damkar Cilik</b> akan terbuka! 🚒</p></div>`;speak('Kumpulkan '+ANGKA[AREA.length]+' lencana dulu ya, nanti sertifikatnya terbuka.');return}
+  const d=new Date(),tgl=d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+  $('#sertiIsi').innerHTML=`<div class="serti"><div style="font-size:3rem">🚒</div><div style="font-size:1.1rem;font-weight:700">SERTIFIKAT</div><div style="font-size:1.8rem;font-weight:800;color:var(--merah)">DAMKAR CILIK</div><p>Diberikan kepada</p><div class="nama">${state.nama?esc(state.nama):'..........'}</div><p>yang sudah pintar mencegah kebakaran<br>tahu cara menyelamatkan diri,<br>dan mengenal jenis-jenis api.</p><div class="lencana3">${AREA.map(a=>LENCANA[a]).join('')}</div><p class="kecilteks">${tgl}</p></div>
+  <div class="mini"><input id="namaAnak" class="inp" placeholder="Nama anak" maxlength="24" value="${esc(state.nama)}"><button class="big" onclick="state.nama=$('#namaAnak').value.trim();save();bukaSerti()">✏️ Simpan nama</button></div>
+  <p class="kecilteks" style="text-align:center">📸 Ambil screenshot untuk menyimpan sertifikat.</p>`;
+  speak('Selamat ya! Sekarang kamu sudah jadi Damkar Cilik!');bunyi('sirene')}
+function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+/* ===== orang tua ===== */
+function gerbang(){const a=rnd(6,9),b=rnd(6,9);
+  overlay(`<h2>👪 Khusus Orang Tua</h2><p>Jawab dulu: <b>${a} × ${b}</b> = ?</p><input id="gate" class="inp" inputmode="numeric" autocomplete="off"><p class="err" id="gerr"></p><div class="mini"><button class="big biru" onclick="cekGerbang(${a*b})">Masuk</button><button class="big putih" onclick="tutup()">Batal</button></div>`);
+  setTimeout(()=>{const i=$('#gate');if(i){i.focus();i.onkeydown=ev=>{if(ev.key==='Enter')cekGerbang(a*b)}}},50)}
+function cekGerbang(v){if(+$('#gate').value===v){tutup();bukaOrtu()}else $('#gerr').textContent='Jawaban belum tepat.'}
+function bukaOrtu(){show('ortu');const s=state.stat,pct=x=>x.b+x.s?Math.round(x.b/(x.b+x.s)*100)+'%':'–',menit=Math.round((state.detik[tglKey()]||0)/60);
+  $('#ortuIsi').innerHTML=`
+  <div class="panel"><h3>📊 Kemajuan</h3><table class="tbl"><tr><th></th><th>🔍</th><th>👍</th><th>🚪</th><th>🧯</th><th>🚒</th></tr>
+   <tr><td>Lencana</td>${AREA.map(a=>`<td>${state.lencana[a]?LENCANA[a]:'–'}</td>`).join('')}</tr>
+   <tr><td>Jawaban benar</td>${AREA.map(a=>`<td>${s[a].b}</td>`).join('')}</tr>
+   <tr><td>Percobaan salah</td>${AREA.map(a=>`<td>${s[a].s}</td>`).join('')}</tr>
+   <tr><td>Ketepatan</td>${AREA.map(a=>`<td>${pct(s[a])}</td>`).join('')}</tr></table>
+   <p>⏱️ Waktu main hari ini: <b>${menit} menit</b> · ⭐ <b>${state.bintang}</b> · 🎁 <b>${state.stiker}/${STIKER.length}</b></p></div>
+  <div class="panel"><h3>🧯 Kelas kebakaran &amp; media pemadam</h3>
+   <table class="tbl kls"><tr><th>Kelas</th><th>Yang terbakar</th><th>Pemadam yang sesuai</th></tr>
+   <tr><td><b>A</b></td><td>Benda padat bukan logam: kayu, kertas, kain, plastik</td><td>Air, busa (foam), serbuk kimia kering (dry powder)</td></tr>
+   <tr><td><b>B</b></td><td>Cairan &amp; gas mudah terbakar: bensin, minyak, elpiji</td><td>Busa, CO₂, serbuk kimia kering. <b>Jangan air.</b> Wajan minyak: matikan kompor, tutup wajan/kain basah.</td></tr>
+   <tr><td><b>C</b></td><td>Instalasi listrik bertegangan</td><td>Putuskan listrik (MCB) dulu, lalu CO₂ atau serbuk kimia kering. <b>Jangan air/busa.</b></td></tr>
+   <tr><td><b>D</b></td><td>Logam: magnesium, natrium, dll.</td><td>Serbuk kimia khusus kelas D atau pasir kering. <b>Jangan air.</b></td></tr></table>
+   <p class="kecilteks">Di game, anak cukup mengenal 3 jenis: <b>api kertas &amp; kayu</b> (kelas A), <b>api minyak &amp; gas</b> (kelas B), dan <b>api listrik</b> (kelas C). Kelas D hanya dijelaskan di sini. Klasifikasi A–D mengikuti Permenakertrans No. PER.04/MEN/1980. Standar NFPA menambah <b>kelas K</b> (minyak/lemak dapur). Cara memakai APAR: <b>Tarik</b> pin, <b>Arahkan</b> selang ke pangkal api, <b>Tekan</b> tuas, <b>Sapukan</b> kiri–kanan. Padamkan sendiri hanya api kecil dan bila jalan keluar aman. Jika ragu, keluar dan hubungi 113/112.</p></div>
+  <div class="panel"><h3>🏠 Lanjutkan di rumah</h3><ul>
+   <li>Simpan korek api dan pemantik di tempat tinggi yang tidak terjangkau anak.</li>
+   <li>Tentukan bersama <b>titik kumpul</b> di luar rumah, lalu latih jalur keluar bersama anak.</li>
+   <li>Latih gerakan <b>Berhenti – Tiarap – Berguling</b> dan <b>merangkak di bawah asap</b> sambil bermain.</li>
+   <li>Ajarkan nomor <b>113</b> (pemadam kebakaran) dan <b>112</b> (panggilan darurat), serta alamat rumah, dan tekankan bahwa nomor ini bukan untuk bercanda.</li>
+   <li>Jangan menumpuk colokan listrik, matikan kompor saat meninggalkan dapur, dan jauhkan lilin serta obat nyamuk bakar dari kain.</li>
+   <li>Bila memungkinkan, pasang alarm asap dan sediakan alat pemadam api ringan (APAR).</li></ul></div>
+  <div class="panel"><h3>⚙️ Pengaturan</h3>
+   <div class="set"><span>Suara & narasi</span><button class="big ${state.suara?'biru':'putih'}" style="font-size:1rem;padding:6px 14px" onclick="state.suara=!state.suara;save();bukaOrtu()">${state.suara?'🔊 Nyala':'🔇 Mati'}</button></div>
+   <div class="set"><span>Suara pembaca</span>${daftarSuara.length?`<select onchange="state.suaraNama=this.value;save();speak('Halo! Ini suara baru. Yuk, kita belajar bareng.',1)"><option value="">Otomatis (terbaik)</option>${daftarSuara.map(v=>`<option value="${esc(v.name)}"${state.suaraNama===v.name?' selected':''}>${esc(v.name)}</option>`).join('')}</select>`:'<span class="kecilteks">Belum ada suara Indonesia</span>'}</div>
+   <div class="set"><span>Kecepatan bicara</span><select onchange="state.kecepatan=+this.value;save();speak('Segini enak didengar, kan?',1)">${[[.8,'Pelan'],[.9,'Santai'],[1,'Normal']].map(([v,l])=>`<option value="${v}"${(state.kecepatan||.9)===v?' selected':''}>${l}</option>`).join('')}</select></div>
+   <div class="set"><span>Coba suaranya</span><button class="big putih" style="font-size:1rem;padding:6px 14px" onclick="speak('Halo! Yuk, kita belajar cegah kebakaran bareng-bareng. Siap jadi Damkar Cilik?',1)">▶ Tes suara</button></div>
+   <p class="kecilteks">💡 Suara terdengar kaku? Di HP Android: buka <b>Setelan → Text-to-speech</b>, pilih mesin <b>Google</b>, lalu unduh suara <b>Bahasa Indonesia</b>. Di laptop, buka game lewat <b>Microsoft Edge</b> untuk suara "Natural" yang lebih mirip manusia.</p>
+   <div class="set"><span>Pengingat istirahat setiap</span><select onchange="state.batas=+this.value;save()">${[10,15,20,30].map(m=>`<option value="${m}"${state.batas===m?' selected':''}>${m} menit</option>`).join('')}</select></div>
+   <div class="set"><span>Hapus semua kemajuan</span><button class="big merah" style="font-size:1rem;padding:6px 14px" onclick="resetData(this)">Reset</button></div>
+   <p class="kecilteks">Data tersimpan di browser perangkat ini saja.</p></div>
+  <div class="mini"><button class="big" onclick="keBeranda()">🏠 Kembali</button></div>`}
+function resetData(b){if(b.dataset.y){const su=state.suara,ba=state.batas;state=JSON.parse(JSON.stringify(BAWAAN));state.suara=su;state.batas=ba;save();updateHeader();bukaOrtu()}else{b.dataset.y=1;b.textContent='Yakin? Ketuk lagi'}}
+
+/* ===== pengingat istirahat ===== */
+let sesi=0;
+setInterval(()=>{if(!$('#game').classList.contains('on')||$('#overlay').classList.contains('on')||document.hidden)return;
+  sesi++;const k=tglKey();state.detik[k]=(state.detik[k]||0)+1;if(sesi%10===0)save();if(sesi>=state.batas*60){sesi=0;save();istirahat()}},1000);
+function istirahat(){let s=60;
+  overlay(`<div class="ovemoji">🧃🤸</div><h2>Waktunya istirahat!</h2><p>Minum air, regangkan badan, dan lihat yang jauh-jauh dulu ya.</p><div class="hitung" id="cd">60</div><div class="mini"><button class="big biru" id="btnIst" disabled onclick="tutup()">Main lagi</button><button class="big putih" onclick="keBeranda()">🏠 Selesai</button></div>`);
+  speak('Eh, sudah waktunya istirahat nih. Yuk, minum air dulu dan regangkan badan.');
+  const t=setInterval(()=>{s--;const c=$('#cd'),b=$('#btnIst');if(!c){clearInterval(t);return}c.textContent=s;if(s<=0){clearInterval(t);if(b)b.disabled=false;c.textContent='✅'}},1000)}
+
+updateHeader();
+</script>
+</body>
+</html>
